@@ -4,86 +4,66 @@
 #include <stdio.h>
 #include <math.h>
 
-// Unit conversions
-
-// Length: meters to feet
-float metersToFeet(float meters) {
-    return meters * 3.281;
+// Function to calculate the derivative of a function at a given point using forward difference method
+double derivative(double (*f)(double), double x, double h) {
+    return (f(x + h) - f(x)) / h;
 }
 
-// Length: feet to meters
-float feetToMeters(float feet) {
-    return feet / 3.281;
+// Function to calculate the indefinite integral of a function within a given range using the trapezoidal rule
+double indefiniteIntegral(double (*f)(double), double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = 0.5 * (f(a) + f(b));
+
+    for (int i = 1; i < n; ++i) {
+        double x = a + i * h;
+        sum += f(x);
+    }
+
+    return h * sum;
 }
 
-// Mass: kilograms to pounds
-float kilogramsToPounds(float kilograms) {
-    return kilograms * 2.205;
+// Function to calculate the definite integral of a function within a given range using the trapezoidal rule
+double definiteIntegral(double (*f)(double), double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = 0.5 * (f(a) + f(b));
+
+    for (int i = 1; i < n; ++i) {
+        double x = a + i * h;
+        sum += f(x);
+    }
+
+    return h * sum;
 }
 
-// Mass: pounds to kilograms
-float poundsToKilograms(float pounds) {
-    return pounds / 2.205;
-}
-
-// Temperature: Celsius to Fahrenheit
-float celsiusToFahrenheit(float celsius) {
-    return (celsius * 9 / 5) + 32;
-}
-
-// Temperature: Fahrenheit to Celsius
-float fahrenheitToCelsius(float fahrenheit) {
-    return (fahrenheit - 32) * 5 / 9;
-}
-
-// Polar to Rectangular coordinates conversion
-void polarToRectangular(float r, float theta, float* x, float* y) {
-    *x = r * cos(theta);
-    *y = r * sin(theta);
-}
-
-// Rectangular to Polar coordinates conversion
-void rectangularToPolar(float x, float y, float* r, float* theta) {
-    *r = sqrt(x * x + y * y);
-    *theta = atan2(y, x);
+// Example function: f(x) = x^2
+double exampleFunction(double x) {
+    return x * x;
 }
 
 int main() {
-    // Unit conversions
-    float meters = 10.0;
-    printf("%.2f meters = %.2f feet\n", meters, metersToFeet(meters));
+    double x = 2.0; // Point at which derivative is calculated
+    double h = 0.0001; // Step size for derivative approximation
 
-    float feet = 32.808;
-    printf("%.2f feet = %.2f meters\n", feet, feetToMeters(feet));
+    printf("Derivative of f(x) = x^2 at x = %.2f is %.2f\n", x, derivative(exampleFunction, x, h));
 
-    float kilograms = 5.0;
-    printf("%.2f kilograms = %.2f pounds\n", kilograms, kilogramsToPounds(kilograms));
+    double lowerLimit = 0.0; // Lower limit for integration
+    double upperLimit = 2.0; // Upper limit for integration
+    int divisions = 10000; // Number of divisions for numerical integration
 
-    float pounds = 11.025;
-    printf("%.2f pounds = %.2f kilograms\n", pounds, poundsToKilograms(pounds));
+    printf("Indefinite integral of f(x) = x^2 from %.2f to %.2f is %.2f\n", lowerLimit, upperLimit, indefiniteIntegral(exampleFunction, lowerLimit, upperLimit, divisions));
 
-    float celsius = 25.0;
-    printf("%.2f Celsius = %.2f Fahrenheit\n", celsius, celsiusToFahrenheit(celsius));
-
-    float fahrenheit = 77.0;
-    printf("%.2f Fahrenheit = %.2f Celsius\n", fahrenheit, fahrenheitToCelsius(fahrenheit));
-
-    // Polar to Rectangular coordinates conversion
-    float radius = 5.0;
-    float angle = 45.0 * M_PI / 180.0; // Convert degrees to radians
-    float x, y;
-    polarToRectangular(radius, angle, &x, &y);
-    printf("\nPolar coordinates (r = %.2f, θ = %.2f radians) in rectangular form: x = %.2f, y = %.2f\n", radius, angle, x, y);
-
-    // Rectangular to Polar coordinates conversion
-    float xCoord = 2.0;
-    float yCoord = 2.0;
-    float r, theta;
-    rectangularToPolar(xCoord, yCoord, &r, &theta);
-    printf("Rectangular coordinates (x = %.2f, y = %.2f) in polar form: r = %.2f, θ = %.2f radians\n", xCoord, yCoord, r, theta);
+    printf("Definite integral of f(x) = x^2 from %.2f to %.2f is %.2f\n", lowerLimit, upperLimit, definiteIntegral(exampleFunction, lowerLimit, upperLimit, divisions));
 
     return 0;
 }
+
+
+
+ 
+    
+
+
+
 
       
 
