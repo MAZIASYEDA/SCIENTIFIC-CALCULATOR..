@@ -2,73 +2,90 @@
 //MAKE MY FIRST SCIENTIFIC CALCULATOR.
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 
-// Function to calculate modulus (remainder)
-int calculateModulus(int num, int divisor) {
-    return num % divisor;
+// Structure to represent a complex number
+struct Complex {
+    float real;
+    float imaginary;
+};
+
+// Function to add two complex numbers
+struct Complex addComplex(struct Complex a, struct Complex b) {
+    struct Complex result;
+    result.real = a.real + b.real;
+    result.imaginary = a.imaginary + b.imaginary;
+    return result;
 }
 
-// Function to calculate percentage
-double calculatePercentage(double value, double total) {
-    return (value / total) * 100.0;
+// Function to subtract two complex numbers
+struct Complex subtractComplex(struct Complex a, struct Complex b) {
+    struct Complex result;
+    result.real = a.real - b.real;
+    result.imaginary = a.imaginary - b.imaginary;
+    return result;
 }
 
-// Function to calculate Greatest Common Divisor (GCD) using Euclidean Algorithm
-int calculateGCD(int a, int b) {
-    while (b != 0) {
-        int temp = b;
-        b = a % b;
-        a = temp;
-    }
-    return a;
+// Function to multiply two complex numbers
+struct Complex multiplyComplex(struct Complex a, struct Complex b) {
+    struct Complex result;
+    result.real = a.real * b.real - a.imaginary * b.imaginary;
+    result.imaginary = a.real * b.imaginary + a.imaginary * b.real;
+    return result;
 }
 
-// Function to calculate Least Common Multiple (LCM)
-int calculateLCM(int a, int b) {
-    return (a * b) / calculateGCD(a, b);
+// Function to divide two complex numbers
+struct Complex divideComplex(struct Complex a, struct Complex b) {
+    struct Complex result;
+    float divisor = b.real * b.real + b.imaginary * b.imaginary;
+    result.real = (a.real * b.real + a.imaginary * b.imaginary) / divisor;
+    result.imaginary = (a.imaginary * b.real - a.real * b.imaginary) / divisor;
+    return result;
 }
 
-// Function to calculate floor (round down)
-int calculateFloor(double num) {
-    return (int)floor(num);
-}
-
-// Function to calculate ceiling (round up)
-int calculateCeiling(double num) {
-    return (int)ceil(num);
+// Function to find the conjugate of a complex number
+struct Complex conjugateComplex(struct Complex num) {
+    struct Complex conjugate;
+    conjugate.real = num.real;
+    conjugate.imaginary = -num.imaginary;
+    return conjugate;
 }
 
 int main() {
-    int num, divisor, a, b;
-    double value, total;
+    struct Complex num1, num2;
 
-    printf("Enter two numbers for modulus (remainder): ");
-    scanf("%d %d", &num, &divisor);
-    printf("Modulus (remainder): %d\n", calculateModulus(num, divisor));
+    printf("Enter real and imaginary parts of first complex number: ");
+    scanf("%f %f", &num1.real, &num1.imaginary);
 
-    printf("Enter value and total for percentage calculation: ");
-    scanf("%lf %lf", &value, &total);
-    printf("Percentage: %.2lf%%\n", calculatePercentage(value, total));
+    printf("Enter real and imaginary parts of second complex number: ");
+    scanf("%f %f", &num2.real, &num2.imaginary);
 
-    printf("Enter two numbers for GCD and LCM calculation: ");
-    scanf("%d %d", &a, &b);
-    printf("GCD: %d\n", calculateGCD(a, b));
-    printf("LCM: %d\n", calculateLCM(a, b));
+    struct Complex sum = addComplex(num1, num2);
+    printf("Sum: %.2f + %.2fi\n", sum.real, sum.imaginary);
 
-    double numForFloorCeiling;
-    printf("Enter a number for floor and ceiling calculation: ");
-    scanf("%lf", &numForFloorCeiling);
-    printf("Floor: %d\n", calculateFloor(numForFloorCeiling));
-    printf("Ceiling: %d\n", calculateCeiling(numForFloorCeiling));
+    struct Complex difference = subtractComplex(num1, num2);
+    printf("Difference: %.2f + %.2fi\n", difference.real, difference.imaginary);
+
+    struct Complex product = multiplyComplex(num1, num2);
+    printf("Product: %.2f + %.2fi\n", product.real, product.imaginary);
+
+    if (num2.real == 0 && num2.imaginary == 0) {
+        printf("Error! Division by zero is not allowed.\n");
+    } else {
+        struct Complex quotient = divideComplex(num1, num2);
+        printf("Quotient: %.2f + %.2fi\n", quotient.real, quotient.imaginary);
+    }
+
+    struct Complex conjugate = conjugateComplex(num1);
+    printf("Conjugate of first complex number: %.2f + %.2fi\n", conjugate.real, conjugate.imaginary);
 
     return 0;
 }
 
 
+ 
 
 
+    
 
     
 
