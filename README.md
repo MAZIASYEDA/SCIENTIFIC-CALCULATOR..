@@ -1,40 +1,41 @@
 # SCIENTIFIC-CALCULATOR..
 //MAKE MY FIRST SCIENTIFIC CALCULATOR.
+
 #include <stdio.h>
+#include <math.h>
 
 int main() {
-    float num1, num2, result;
+    double angle, result;
     char operation;
 
-    printf("Enter operator (+, -, *, /): ");
+    printf("Enter operation (s for sine, c for cosine, t for tangent): ");
     scanf("%c", &operation);
 
-    printf("Enter two numbers: ");
-    scanf("%f %f", &num1, &num2);
+    printf("Enter angle in degrees: ");
+    scanf("%lf", &angle);
+
+    // Convert degrees to radians for trigonometric functions
+    double radianAngle = angle * (M_PI / 180.0);
 
     switch(operation) {
-        case '+':
-            result = num1 + num2;
-            printf("Result: %.2f\n", result);
+        case 's':
+            result = sin(radianAngle);
+            printf("Sine of %.2lf degrees is: %.4lf\n", angle, result);
             break;
-        case '-':
-            result = num1 - num2;
-            printf("Result: %.2f\n", result);
+        case 'c':
+            result = cos(radianAngle);
+            printf("Cosine of %.2lf degrees is: %.4lf\n", angle, result);
             break;
-        case '*':
-            result = num1 * num2;
-            printf("Result: %.2f\n", result);
-            break;
-        case '/':
-            if (num2 == 0) {
-                printf("Error! Division by zero is not allowed.\n");
+        case 't':
+            if (angle == 90 || angle == 270) {
+                printf("Tangent is undefined for angles 90 and 270 degrees.\n");
             } else {
-                result = num1 / num2;
-                printf("Result: %.2f\n", result);
+                result = tan(radianAngle);
+                printf("Tangent of %.2lf degrees is: %.4lf\n", angle, result);
             }
             break;
         default:
-            printf("Error! Invalid operator.\n");
+            printf("Error! Invalid operation.\n");
     }
 
     return 0;
