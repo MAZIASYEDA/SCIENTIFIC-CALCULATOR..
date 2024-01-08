@@ -5,23 +5,42 @@
 #include <math.h>
 
 int main() {
-    double num, base, result;
+    double angle, result;
+    char operation;
 
-    printf("Enter the number: ");
-    scanf("%lf", &num);
+    printf("Enter operation (s for sine, c for cosine, t for tangent): ");
+    scanf("%c", &operation);
 
-    printf("Enter the base: ");
-    scanf("%lf", &base);
+    printf("Enter angle in degrees: ");
+    scanf("%lf", &angle);
 
-    if (num <= 0 || base <= 0 || base == 1) {
-        printf("Error! Logarithm is undefined for these values.\n");
-    } else {
-        result = log(num) / log(base); // Using change of base formula
-        printf("Logarithm of %.2lf to the base %.2lf is: %.4lf\n", num, base, result);
+    // Convert degrees to radians for trigonometric functions
+    double radianAngle = angle * (M_PI / 180.0);
+
+    switch(operation) {
+        case 's':
+            result = sin(radianAngle);
+            printf("Sine of %.2lf degrees is: %.4lf\n", angle, result);
+            break;
+        case 'c':
+            result = cos(radianAngle);
+            printf("Cosine of %.2lf degrees is: %.4lf\n", angle, result);
+            break;
+        case 't':
+            if (angle == 90 || angle == 270) {
+                printf("Tangent is undefined for angles 90 and 270 degrees.\n");
+            } else {
+                result = tan(radianAngle);
+                printf("Tangent of %.2lf degrees is: %.4lf\n", angle, result);
+            }
+            break;
+        default:
+            printf("Error! Invalid operation.\n");
     }
 
     return 0;
 }
+
 
 
     
